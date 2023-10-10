@@ -1,4 +1,4 @@
-# SMART CONTRACT TRANSCACTIONS
+# SMART CONTRACT TRANSCACTIONS USING WEB3PY
 This function will take the input of a smart contracts address and use the Etherscan.io API in order to fetch the ABI of that smart contract. It will display the read and write function separately and display the name of each contract which can be executed, it also shows the associated inputs. If a write function is called it will return the TXN Hash of that transaction. All inputs and responses are done within the CLI. 
 
 Below is an example of the output from using the SHIBA INU contract address.
