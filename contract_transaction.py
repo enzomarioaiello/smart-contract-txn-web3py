@@ -22,7 +22,7 @@ receive_account = w3.eth.account.from_key(os.environ.get("METAMASK_WALLET2_PK"))
 
 #ABI fetch and initializing contract
 while True:
-    contract_address = str(input("Enter contract address: "))  #os.environ.get("SHIBA_INU_ADDRESS") 
+    contract_address = str(input("Enter contract address: "))
     if contract_address.startswith("0x"):
         break
 
