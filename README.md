@@ -1,2 +1,2 @@
-# testing
-Testing python :)
+# Smart contract manipulation
+This function will take the input of a smart contracts address and use the Etherscan API in order to fetch the ABI of that smart contract and perform either read or write contracts based on the user's input.
