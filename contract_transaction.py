@@ -1,8 +1,8 @@
-#Library imports
+'''Library imports'''
+import logging
+import os
 from web3 import Web3
 from dotenv import load_dotenv
-import os
-import logging
 from abifetch import fetch_abi
 
 #Configuration
@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(level
 load_dotenv("general.env")
 
 w3 = Web3(Web3.HTTPProvider(os.environ.get("INFURA_URL")))
-logging.info(f"Connection to web3 node: {w3.is_connected()}")
+logging.info("Connection to web3 node: %s", w3.is_connected())
 
 MAX_PRIORITY_FEE_PER_GAS = 2
 MAX_FEE_PER_GAS = 20
@@ -68,14 +68,11 @@ while True:
         choose_function = int(input("Which function do you want to run?: "))
         variable_func = read_functions[choose_function - 1]
         break
-    elif choose_mutability == "w":
+    if choose_mutability == "w":
         choose_function = int(input("Which function do you want to run?: "))
         variable_func = write_functions[choose_function - 1]
         break
-    else:
-        pass
         
-
 function_name = variable_func.split("(")[0]
 function_inputs = variable_func.split("(")[1].strip(")").split(", ")
 
@@ -94,33 +91,26 @@ function_arg = []
 if function_inputs[0] == '':
     function_arg = []
 elif function_inputs[0] == 'address' and function_inputs[1] == 'address' and function_inputs[2] == 'uint256':
-    
-    function_arg.append(str(input(f"Enter address (1): ")))
-    function_arg.append(str(input(f"Enter address (2): ")))
-    function_arg.append(int(float(input(f"Enter amount(in {symbol}): ")) * (10 ** decimals)))
-    
-elif function_inputs[0] == 'address' and function_inputs[1] == 'address':
-    
-    function_arg.append(str(input(f"Enter address (1): ")))
-    function_arg.append(str(input(f"Enter address (2): ")))
-    
-elif function_inputs[0] == 'address' and function_inputs[1] == 'uint256':
-    
-    function_arg.append(str(input(f"Enter address: ")))
-    function_arg.append(int(float(input(f"Enter amount(in {symbol}): ")) * (10 ** decimals)))
-    
+    function_arg.append(str(input("Enter address (1): ")))
+    function_arg.append(str(input("Enter address (2): ")))
+    function_arg.append(int(float(input("Enter amount(in {symbol}): ")) * (10 ** decimals)))
+elif function_inputs[0] == 'address' and function_inputs[1] == 'address': 
+    function_arg.append(str(input("Enter address (1): ")))
+    function_arg.append(str(input("Enter address (2): ")))   
+elif function_inputs[0] == 'address' and function_inputs[1] == 'uint256':  
+    function_arg.append(str(input("Enter address: ")))
+    function_arg.append(int(float(input(f"Enter amount(in {symbol}): ")) * (10 ** decimals)))  
 elif function_inputs[0] == 'address':
-    function_arg.append(str(input(f"Enter address: ")))
+    function_arg.append(str(input("Enter address: ")))
 elif function_arg[0] == 'uint256':
-    function_arg.append(int(float(input(f"Enter amount(in {symbol}): ")) * (10 ** decimals)))
+    function_arg.append(int(float(input("Enter amount(in {symbol}): ")) * (10 ** decimals)))
 else:
     pass
 
 #Build txn
 if choose_mutability == "r":
     functionR = getattr(contract.functions, function_name)
-    print(functionR(*function_arg).call())
-    
+    print(functionR(*function_arg).call())  
 else:
     functionW = getattr(contract.functions, function_name)
     txn = functionW(*function_arg).build_transaction({
@@ -135,6 +125,7 @@ else:
     if input("send the transaction: y/n?\n") == "y":
         signed_tx = w3.eth.account.sign_transaction(txn, private_key=send_account.key)
         tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-        logging.info(f"Txn Hash: {tx_hash.hex()}")
+        logging.info("Txn Hash: %s", tx_hash.hex())
     else:
         logging.info("Transaction aborted")
+        
